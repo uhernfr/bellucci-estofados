@@ -24,6 +24,7 @@
       color: var(--azul-claro);
       margin: 0;
       padding: 0;
+      padding-top: 80px;
     }
     .container {
       max-width: 1200px;
@@ -34,9 +35,11 @@
       background: var(--branco);
       color: var(--azul-escuro);
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      position: sticky;
+      position: fixed;
       top: 0;
-      z-index: 10;
+      left: 0;
+      width: 100vw;
+      z-index: 1000;
     }
     .nav {
       display: flex;
@@ -213,10 +216,62 @@
       margin-top: 2rem;
     }
     @media (max-width: 768px) {
-      .nav-links { display: none; }
+      .nav {
+        padding: 0.5rem 0.5rem;
+      }
+      .nav-links {
+        display: none !important;
+        position: absolute;
+        right: 0;
+        top: 70px;
+        background: var(--branco);
+        width: 100vw;
+        left: 0;
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 4px 16px rgba(58,92,168,0.12);
+      }
       .hero-title { font-size: 2rem; }
       section { padding: 2.5rem 0 1.5rem 0; }
       .servicos-list, .beneficios-list { gap: 1rem; }
+      .menu-toggle {
+        display: flex !important;
+        z-index: 101;
+      }
+    }
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      gap: 6px;
+      z-index: 101;
+    }
+    .menu-toggle span {
+      display: block;
+      height: 4px;
+      width: 100%;
+      background: var(--azul-escuro);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    .nav-links.mobile-active {
+      display: flex !important;
+      flex-direction: column;
+      position: absolute;
+      top: 70px;
+      right: 0;
+      left: 0;
+      width: 100vw;
+      background: var(--branco);
+      box-shadow: 0 4px 16px rgba(58,92,168,0.12);
+      border-radius: 0 0 12px 12px;
+      padding: 1rem 2rem;
+      gap: 1.5rem;
+      z-index: 100;
+      align-items: flex-start;
+      text-align: left;
     }
   </style>
 </head>
@@ -227,6 +282,11 @@
         <!-- Substitua pelo caminho correto da logo -->
         <img src="images/bellucci-logo.png" alt="Bellucci Estofados Logo">
         <span style="font-weight:800;font-size:1.3rem;letter-spacing:1px;">Bellucci Estofados</span>
+      </div>
+      <div class="menu-toggle" id="menuToggle" aria-label="Abrir menu" tabindex="0">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
       <nav class="nav-links">
         <a href="#sobre">Sobre</a>
@@ -269,11 +329,20 @@
     </div>
   </section>
 
-  <section id="beneficios" style="display:none;"></section>
+  <section id="beneficios" style="background: var(--azul-medio); color: var(--branco);">
+    <div class="container">
+      <h2>Benefícios</h2>
+      <div class="beneficios-list">
+        <div class="beneficio">Limpeza periódica: prolonga a vida útil dos seus estofados e tapetes, mantendo-os sempre bonitos e livres de ácaros.</div>
+        <div class="beneficio">Higienização profissional: elimina sujeiras profundas, odores e agentes alergênicos, proporcionando mais saúde para sua família.</div>
+        <div class="beneficio">Impermeabilização: protege contra líquidos e manchas, facilitando a limpeza do dia a dia e preservando o aspecto de novo.</div>
+      </div>
+    </div>
+  </section>
 
   <section id="galeria" style="background: var(--branco); color: var(--azul-escuro);">
     <div class="container">
-      <h2>Galeria de Imagens</h2>
+      <!-- <h2>Galeria de Imagens</h2> -->
       <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
         <!-- Adicione/remova imagens na pasta images/gallery e atualize os nomes abaixo -->
         <a href="images/gallery/01.png" target="_blank" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
@@ -308,8 +377,9 @@
     </div>
   </section>
 
-  <section id="depoimentos" style="background: var(--branco); color: var(--azul-escuro);">
+  <section id="depoimentos" style="background: linear-gradient(135deg, var(--azul-escuro) 60%, var(--azul-medio) 100%); color: var(--branco);">
     <div class="container">
+      
       <h2>O que nossos clientes dizem</h2>
       <div class="depoimentos">
         <p>"Meu sofá ficou como novo! Atendimento excelente e resultado impecável."<br><strong>- Juliana S.</strong></p>
@@ -319,7 +389,7 @@
     </div>
   </section>
 
-  <section id="contato" style="background: linear-gradient(135deg, var(--azul-escuro) 60%, var(--azul-medio) 100%); color: var(--branco);">
+  <section id="contato" style="background: var(--branco); color: var(--azul-escuro);">
     <div class="container contato">
       <h2>Fale Conosco</h2>
       <p>Solicite um orçamento sem compromisso ou tire suas dúvidas pelo WhatsApp, Instagram ou e-mail:</p>
@@ -366,6 +436,33 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.querySelector('.nav-links');
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('mobile-active');
+    });
+    menuToggle.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        navLinks.classList.toggle('mobile-active');
+      }
+    });
+    // Fecha o menu ao clicar em um link (mobile)
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          navLinks.classList.remove('mobile-active');
+        }
+      });
+    });
+    // Fecha o menu ao redimensionar para desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        navLinks.classList.remove('mobile-active');
+      }
+    });
+  </script>
 
   <!--
     Personalize os textos, depoimentos e imagens conforme desejar.
