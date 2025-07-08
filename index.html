@@ -278,6 +278,66 @@
       align-items: flex-start;
       text-align: left;
     }
+    /* Lightbox styles */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(10,26,58,0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .lightbox-overlay.active {
+      display: flex;
+    }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      background: #fff;
+      padding: 8px;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 32px;
+      right: 48px;
+      font-size: 2.5rem;
+      color: #fff;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 2100;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover {
+      color: var(--azul-claro);
+    }
+    .lightbox-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 3rem;
+      color: #fff;
+      background: rgba(10,26,58,0.4);
+      border: none;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2100;
+      transition: background 0.2s, color 0.2s;
+    }
+    .lightbox-arrow:hover {
+      background: var(--azul-claro);
+      color: var(--azul-escuro);
+    }
+    .lightbox-arrow.left { left: 32px; }
+    .lightbox-arrow.right { right: 32px; }
   </style>
 </head>
 <body>
@@ -348,36 +408,42 @@
   <section id="galeria" style="background: var(--branco); color: var(--azul-escuro);">
     <div class="container">
       <!-- <h2>Galeria de Imagens</h2> -->
-      <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
+      <div class="gallery-grid" style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
         <!-- Adicione/remova imagens na pasta images/gallery e atualize os nomes abaixo -->
-        <a href="images/gallery/01.png" target="_blank" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
+        <a href="#" class="gallery-link" data-img="images/gallery/01.png" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
           <img src="images/gallery/01.png" alt="Galeria Bellucci 1" style="width:100%;height:100%;object-fit:cover;display:block;">
         </a>
-        <a href="images/gallery/02.png" target="_blank" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
+        <a href="#" class="gallery-link" data-img="images/gallery/02.png" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
           <img src="images/gallery/02.png" alt="Galeria Bellucci 2" style="width:100%;height:100%;object-fit:cover;display:block;">
         </a>
-        <a href="images/gallery/03.png" target="_blank" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
+        <a href="#" class="gallery-link" data-img="images/gallery/03.png" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
           <img src="images/gallery/03.png" alt="Galeria Bellucci 3" style="width:100%;height:100%;object-fit:cover;display:block;">
         </a>
-        <a href="images/gallery/04.png" target="_blank" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
+        <a href="#" class="gallery-link" data-img="images/gallery/04.png" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
           <img src="images/gallery/04.png" alt="Galeria Bellucci 4" style="width:100%;height:100%;object-fit:cover;display:block;">
         </a>
-        <a href="images/gallery/05.png" target="_blank" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
+        <a href="#" class="gallery-link" data-img="images/gallery/05.png" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
           <img src="images/gallery/05.png" alt="Galeria Bellucci 5" style="width:100%;height:100%;object-fit:cover;display:block;">
         </a>
-        <a href="images/gallery/06.png" target="_blank" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
+        <a href="#" class="gallery-link" data-img="images/gallery/06.png" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
           <img src="images/gallery/06.png" alt="Galeria Bellucci 6" style="width:100%;height:100%;object-fit:cover;display:block;">
         </a>
-        <a href="images/gallery/07.png" target="_blank" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
+        <a href="#" class="gallery-link" data-img="images/gallery/07.png" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
           <img src="images/gallery/07.png" alt="Galeria Bellucci 7" style="width:100%;height:100%;object-fit:cover;display:block;">
         </a>
-        <a href="images/gallery/08.png" target="_blank" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
+        <a href="#" class="gallery-link" data-img="images/gallery/08.png" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
           <img src="images/gallery/08.png" alt="Galeria Bellucci 8" style="width:100%;height:100%;object-fit:cover;display:block;">
         </a>
-        <a href="images/gallery/09.png" target="_blank" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
+        <a href="#" class="gallery-link" data-img="images/gallery/09.png" style="display:block; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:180px; height:120px; background:#eee;">
           <img src="images/gallery/09.png" alt="Galeria Bellucci 9" style="width:100%;height:100%;object-fit:cover;display:block;">
         </a>
         <!-- Para adicionar mais imagens, basta duplicar o bloco acima e alterar o nome do arquivo -->
+      </div>
+      <div class="lightbox-overlay" id="lightboxOverlay">
+        <button class="lightbox-arrow left" id="lightboxPrev" aria-label="Anterior">&lt;</button>
+        <button class="lightbox-close" id="lightboxClose" aria-label="Fechar">&times;</button>
+        <img src="" alt="Imagem expandida" class="lightbox-img" id="lightboxImg">
+        <button class="lightbox-arrow right" id="lightboxNext" aria-label="Próxima">&gt;</button>
       </div>
     </div>
   </section>
@@ -468,6 +534,49 @@
       if (window.innerWidth > 768) {
         navLinks.classList.remove('mobile-active');
       }
+    });
+    // Lightbox para galeria
+    const galleryLinks = Array.from(document.querySelectorAll('.gallery-link'));
+    const lightboxOverlay = document.getElementById('lightboxOverlay');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    let currentImgIndex = 0;
+    function showLightboxAt(idx) {
+      if (idx < 0) idx = galleryLinks.length - 1;
+      if (idx >= galleryLinks.length) idx = 0;
+      currentImgIndex = idx;
+      lightboxImg.src = galleryLinks[idx].getAttribute('data-img');
+    }
+    galleryLinks.forEach((link, i) => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        showLightboxAt(i);
+        lightboxOverlay.classList.add('active');
+      });
+    });
+    lightboxPrev.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showLightboxAt(currentImgIndex - 1);
+    });
+    lightboxNext.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showLightboxAt(currentImgIndex + 1);
+    });
+    function closeLightbox() {
+      lightboxOverlay.classList.remove('active');
+      lightboxImg.src = '';
+    }
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxOverlay.addEventListener('click', function(e) {
+      if (e.target === lightboxOverlay) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (!lightboxOverlay.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showLightboxAt(currentImgIndex - 1);
+      if (e.key === 'ArrowRight') showLightboxAt(currentImgIndex + 1);
     });
   </script>
 
